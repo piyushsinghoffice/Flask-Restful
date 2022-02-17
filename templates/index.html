@@ -1,0 +1,70 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="container">
+  <h2>Users Data</h2>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Company Name</th>
+      <th>Age</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Email</th>
+      <th>Web</th>
+    </tr>
+    {% for user in userData %}
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.first_name}}</td>
+      <td>{{user.last_name}}</td>
+      <td>{{user.company_name}}</td>
+      <td>{{user.age}}</td>
+      <td>{{user.city}}</td>
+      <td>{{user.state}}</td>
+      <td>{{user.zip}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.web}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <form action="/" method="post">
+    <div class="mb-3">
+      <input type="text" placeholder="ID" name="id" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="First Name" name="first_name" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="Last Name" name="last_name" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="Company Name" name="company_name" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="Age" name="age" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="City" name="city" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="State" name="state" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="ZIP" name="zip" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="Email" name="email" />
+    </div>
+    <div class="mb-3">
+      <input type="text" placeholder="Web" name="web" />
+    </div>
+    <div class="mb-3">
+      <button class="btn btn-primary">Create User</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
