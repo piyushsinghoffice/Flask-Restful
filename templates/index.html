@@ -93,7 +93,7 @@
       function deleteID() {
         $.ajax({
           url: '/api/users/{{user.id}}',
-          methods: 'DELETE',
+          type: 'DELETE',
         });
       }
     </script>
