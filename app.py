@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, Response, redirect
 from flask_sqlalchemy import SQLAlchemy
 import pymongo
 import json
-import re
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 
@@ -60,7 +60,7 @@ def main():
         except:
             response_message("cannot find users", 500)
 
-@app.route("/", methods=["POST"])
+@app.route("/api/users/", methods=["POST"])
 def post_form_data():
     try:
         # args = request.args
@@ -86,13 +86,41 @@ def post_form_data():
         response_message("cannot create user", 500)
         return redirect('/api/users/')
 
-@app.route("/api/users/<int:_id>")
-def findID(_id):
-    data = list(db.users.find({"id": _id}))
-    for user in data:
-        user["_id"] = str(user["_id"])
-    response_message("found user", 200)
-    return render_template("index.html", User_id=data)
+@app.route("/api/users/<int:idx>")
+def find_id(idx):
+    try:
+        data = list(db.users.find({"id": idx}))
+        for user in data:
+            user["_id"] = str(user["_id"])
+        response_message("found user", 200)
+    except Exception as ex:
+        print(ex)
+        response_message("cannot find id", 500)
+    return render_template("index.html", userData=data)
+
+@app.route("/api/users/<int:idx>", methods=["POST","PATCH"])
+def update_user(idx):
+    try:
+        db.users.update_one({"id": idx}, {"$set":{
+                                                    "first_name": request.form["update_first_name"],
+                                                    "last_name": request.form["update_last_name"],
+                                                    "age": request.form["update_age"],
+                                                }})
+        response_message("found user", 200)
+    except Exception as ex:
+        print(ex)
+        response_message("cannot find id", 500)
+    return redirect(f"/api/users/{idx}")
+
+@app.route("/api/users/<int:idx>", methods=["POST","DELETE"])
+def delete_user(idx):
+    try:
+        db.users.delete_one({"id": idx})
+        response_message("Successfully deleted user", 200)
+    except Exception as ex:
+        print(ex)
+        response_message("Sorry cannot delete user", 500)
+    return redirect(f"/api/users/{idx}")
 
 if __name__ == "__main__":
     app.run(port=80, debug=True)

@@ -30,41 +30,80 @@
     </tr>
     {% endfor %}
   </table>
-  <form action="/" method="post">
-    <div class="mb-3">
-      <input type="text" placeholder="ID" name="id" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="First Name" name="first_name" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="Last Name" name="last_name" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="Company Name" name="company_name" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="Age" name="age" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="City" name="city" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="State" name="state" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="ZIP" name="zip" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="Email" name="email" />
-    </div>
-    <div class="mb-3">
-      <input type="text" placeholder="Web" name="web" />
-    </div>
-    <div class="mb-3">
-      <button class="btn btn-primary">Create User</button>
-    </div>
-  </form>
+  <div class="container">
+    <form action="/" method="post">
+      <div class="mb-3">
+        <input type="text" placeholder="ID" name="id" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="First Name" name="first_name" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Last Name" name="last_name" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Company Name" name="company_name" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Age" name="age" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="City" name="city" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="State" name="state" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="ZIP" name="zip" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Email" name="email" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Web" name="web" />
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-primary">Create User</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    {% for user in userData %}
+    <form action="/api/users/{{user.id}}" method="post">
+      <div class="mb-3">
+        <input type="text" placeholder="First Name" name="update_first_name" value="{{user.first_name}}" />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Last Name" name="update_last_name" value={{user.last_name}} />
+      </div>
+      <div class="mb-3">
+        <input type="text" placeholder="Age" name="update_age" value={{user.age}} />
+
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-warning">Update User</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+  <div class="container">
+    {% for user in userData %}
+    <script>
+      function deleteID() {
+        $.ajax({
+          url: '/api/users/{{user.id}}',
+          methods: 'DELETE',
+        });
+      }
+    </script>
+    <form action="/api/users/{{user.id}}" method="post">
+      <div class="mb-3">
+        <button class="btn btn-danger" onclick="deleteID()">Delete User</button>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
 </div>
 
 {% endblock %}
